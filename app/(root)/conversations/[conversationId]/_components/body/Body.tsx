@@ -1,37 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+'use client';
 
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-import { useQuery } from "convex/react";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
-import Message from "./Message";
-import { useMutationState } from "@/hooks/useMutationState";
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
+import { useQuery } from 'convex/react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import Message from './Message';
+import { useMutationState } from '@/hooks/useMutationState';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useConversation } from "@/hooks/useConversation";
-import { CallRoom } from "./CallRoom";
+} from '@/components/ui/tooltip';
+import { useConversation } from '@/hooks/useConversation';
+import { CallRoom } from './CallRoom';
 
 type Props = {
   members: {
-    _id?: Id<"users">;
-    lastSeenMessageId?: Id<"messages">;
+    _id?: Id<'users'>;
+    lastSeenMessageId?: Id<'messages'>;
     username?: string;
     [key: string]: any;
   }[];
-  callType: "audio" | "video" | null;
-  setCallType: Dispatch<SetStateAction<"audio" | "video" | null>>;
+  callType: 'audio' | 'video' | null;
+  setCallType: Dispatch<SetStateAction<'audio' | 'video' | null>>;
 };
 
 const Body = ({ members, callType, setCallType }: Props) => {
   const { conversationId } = useConversation();
 
   const messages = useQuery(api.messages.get, {
-    id: conversationId as Id<"conversations">,
+    id: conversationId as Id<'conversations'>,
   });
 
   const { mutate: markRead } = useMutationState(api.conversation.markRead);
@@ -77,13 +77,13 @@ const Body = ({ members, callType, setCallType }: Props) => {
     }
   };
 
-  const getSeenMessage = (messageId: Id<"messages">, senderId: Id<"users">) => {
+  const getSeenMessage = (messageId: Id<'messages'>, senderId: Id<'users'>) => {
     const seenUsers = members
       .filter(
         (member) =>
-          member.lastSeenMessageId === messageId && member._id !== senderId,
+          member.lastSeenMessageId === messageId && member._id !== senderId
       )
-      .map((user) => user.username!.split(" ")[0]);
+      .map((user) => user.username!.split(' ')[0]);
 
     if (seenUsers.length === 0) return undefined;
 
@@ -112,14 +112,16 @@ const Body = ({ members, callType, setCallType }: Props) => {
                 createdAt={message._creationTime}
                 seen={seenMessage}
                 type={message.type}
+                hasSecret={message.hasSecret ?? false}
+                stegoMessage={message.stegoMessage ?? null}
               />
             );
-          },
+          }
         )
       ) : (
         <CallRoom
-          audio={callType === "audio" || callType === "video"}
-          video={callType === "video"}
+          audio={callType === 'audio' || callType === 'video'}
+          video={callType === 'video'}
           handleDisconnect={() => setCallType(null)}
         />
       )}
