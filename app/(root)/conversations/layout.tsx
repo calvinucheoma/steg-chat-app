@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-"use client";
+'use client';
 
-import ItemList from "@/components/shared/item-list/ItemList";
-import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
-import DMConversationItem from "./_components/DMConversationItem";
-import { Loader2 } from "lucide-react";
-import CreateGroupDialog from "./_components/CreateGroupDialog";
-import GroupConversationItem from "./_components/GroupConversationItem";
+import ItemList from '@/components/shared/item-list/ItemList';
+import { api } from '@/convex/_generated/api';
+import { useQuery } from 'convex/react';
+import DMConversationItem from './_components/DMConversationItem';
+import { Loader2 } from 'lucide-react';
+import CreateGroupDialog from './_components/CreateGroupDialog';
+import GroupConversationItem from './_components/GroupConversationItem';
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -28,7 +28,7 @@ const ConversationsLayout = ({ children }: Props) => {
                 <GroupConversationItem
                   key={conversation.conversation._id}
                   id={conversation.conversation._id}
-                  name={conversation.conversation.name || ""}
+                  name={conversation.conversation.name || ''}
                   lastMessageSender={conversation.lastMessage?.sender}
                   lastMessageContent={conversation.lastMessage?.content}
                   unseenCount={conversation.unseenCount}
@@ -37,8 +37,8 @@ const ConversationsLayout = ({ children }: Props) => {
                 <DMConversationItem
                   key={conversation.conversation._id}
                   id={conversation.conversation._id}
-                  username={conversation.otherMember?.username || ""}
-                  imageUrl={conversation.otherMember?.imageUrl || ""}
+                  username={conversation.otherMember?.username || ''}
+                  imageUrl={conversation.otherMember?.imageUrl || ''}
                   lastMessageSender={conversation.lastMessage?.sender}
                   lastMessageContent={conversation.lastMessage?.content}
                   unseenCount={conversation.unseenCount}
